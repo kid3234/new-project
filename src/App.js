@@ -9,9 +9,25 @@ const App = () => {
   const searchMovies = async (title) => {
     const res = await fetch(`${Api_url}&s=${title}`);
     const data = await res.json();
+    console.log(data);
     setMovies(data.Search)
   }
+  async function fetchMovies() {
+    try {
+      const res = await fetch(`${Api_url}&s=*&type=movie&r=${2+2}`);
+      const data = await res.json();
+      if (data.Response === "True") {
+        console.log(data.Search);
+        setMovies(data.Search);
+      } else {
+        console.log("An error occurred:", data.Error);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }
   useEffect(() => {
+    // fetchMovies()
     searchMovies('spiderman')
   }, [])
   return (
