@@ -74,7 +74,7 @@ h1 {
   height: 35px;
   cursor: pointer;
 }
-
+/* ......................................... */
 /* .search button {
   padding: 20px 40px;
   border-radius: 0.5rem;
@@ -89,7 +89,7 @@ h1 {
   -webkit-box-shadow: 5px 5px 7px #1c1d1f, -5px -5px 7px #222527;
   box-shadow: 5px 5px 7px #1c1d1f, -5px -5px 7px #222527;
 } */
-
+/* ............................................... */
 .empty {
   width: 100%;
   margin-top: 3rem;
@@ -229,4 +229,30 @@ h1 {
     width: "100%";
     margin: 1rem;
   }
+  
+}
+.desctext{
+  color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  width: 50.33%;
+  /* margin: 20px; */
+
+}
+
+.description{
+  margin: 60px;
+  display: flex;
+  color: white;
+
+}
+.RD{
+  display: flex;
+  justify-content: space-between;
+  margin: 40px;
+}
+.description img{
+  border-radius: 30px;
+  height: 75%;
+  box-shadow: 25px 23px 49px -9px rgba(12, 167, 238, 0.1);
 }

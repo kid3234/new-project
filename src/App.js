@@ -2,34 +2,57 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import searchIcon from './search.svg'
 import MovieCard from './MovieCart';
-const Api_url = 'http://www.omdbapi.com/?apikey=96981757';
+import MovieDescription from './MovieDescription';
+import { Link } from 'react-router-dom';
+
+// ca1ecf25a87b806c6a9d879893b4f06f
+// const Api_url = 'http://www.omdbapi.com/?apikey=96981757';
+const Api_url = 'https://api.themoviedb.org/3/movie/popular?api_key=ca1ecf25a87b806c6a9d879893b4f06f';
+// const API_KEY = 'YOUR_TMDB_API_KEY';
 const App = () => {
   const [movies, setMovies] = useState([]);
-  const [searchTerm,setSearchTerm] =useState('');
+  const [search, setSearch] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedMovie, setSelectedMovie] = useState([]);
+  const [redirect, setRedirect] = useState(false)
+
+
+  const handleDataFromChild = (data) => {
+    setSelectedMovie(data);
+    console.log("this is from child", selectedMovie);
+    setRedirect(true)
+  };
   const searchMovies = async (title) => {
-    const res = await fetch(`${Api_url}&s=${title}`);
-    const data = await res.json();
-    console.log(data);
-    setMovies(data.Search)
+    console.log("this is search");
+    await fetch(`https://api.themoviedb.org/3/search/movie?api_key=ca1ecf25a87b806c6a9d879893b4f06f&query=${title}`)
+      .then(response => response.json())
+      .then(data => {
+        setMovies(data.results);
+        setSearch(true)
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
+    // console.log(res);
+
+
+
   }
   async function fetchMovies() {
-    try {
-      const res = await fetch(`${Api_url}&s=*&type=movie&r=${2+2}`);
-      const data = await res.json();
-      if (data.Response === "True") {
-        console.log(data.Search);
-        setMovies(data.Search);
-      } else {
-        console.log("An error occurred:", data.Error);
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
+    await fetch(Api_url)
+      .then(response => response.json())
+      .then(data => {
+        setMovies(data.results);
+        console.log(data.results[0]);
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
   }
   useEffect(() => {
-    // fetchMovies()
-    searchMovies('spiderman')
-  }, [])
+    { search ? searchMovies(searchTerm) : fetchMovies() }
+    // searchMovies('spiderman')
+  }, [search])
   return (
     <div className="App">
       <h1>MovieLand</h1>
@@ -45,14 +68,17 @@ const App = () => {
           onClick={() => searchMovies(searchTerm)}
         />
       </div>
-      {
-        movies?.length > 0 ?(
 
+      {
+        movies?.length > 0 ? (
           <div className='container'>
-            {movies.map((movie)=>
-            <MovieCard movie={movie} />)}
-          </div> 
-        ): 
+            {movies.map((movie) =>
+              <Link to={`/movies/${movie.id}`}> 
+                 <MovieCard movie={movie} sendDataToParent={handleDataFromChild} />
+              </Link>
+              )}
+          </div>
+        ) :
           (
             <div className='empty'>
               <h2>No movies found</h2>
@@ -60,7 +86,11 @@ const App = () => {
           )
       }
 
+
+
     </div>
+
+
   );
 }
 

@@ -1,21 +1,26 @@
-import React from "react";
-const MovieCard = ({movie}) => {
+import React, { useState } from "react";
+
+const MovieCard = ({ movie }) => {
+    const Selectmovie = (movie) => {
+        console.log("this is movie 2", movie);
+    }
     return (
-        <div className='movie' >
-            <div>
-                <p>{movie.year}</p>
-            </div>
-            <div>
-                <img
-                    src={movie?.poster != 'N/A' ? movie.Poster : 'http://via.placeholder./400'}
-                    alt={movie?.title}
-                />
-            </div>
-            <div>
-                <span>{movie.Type}</span>
-                <h3>{movie.Title}</h3>
-            </div>
-        </div >
+            <div className='movie' onClick={Selectmovie(movie)}>
+                <div>
+                    <p>{movie.release_date}</p>
+                </div>
+                <div>
+                    <img
+                        src={movie?.poster_path !== 'N/A' ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'http://via.placeholder./400'}
+                        alt={movie?.original_title}
+                    />
+                </div>
+                <div>
+                    <span>{movie.release_date}</span>
+                    <h3>{movie.original_title}</h3>
+                </div>
+            </div >
+        
     )
 }
 
