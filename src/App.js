@@ -18,6 +18,7 @@ const App = () => {
 
 
   const handleDataFromChild = (data) => {
+    console.log("this is from parent",data);
     setSelectedMovie(data);
     console.log("this is from child", selectedMovie);
     setRedirect(true)
@@ -33,10 +34,6 @@ const App = () => {
       .catch(error => {
         console.log('Error:', error);
       });
-    // console.log(res);
-
-
-
   }
   async function fetchMovies() {
     await fetch(Api_url)
@@ -51,10 +48,11 @@ const App = () => {
   }
   useEffect(() => {
     { search ? searchMovies(searchTerm) : fetchMovies() }
-    // searchMovies('spiderman')
   }, [search])
   return (
     <div className="App">
+{redirect ? <MovieDescription movie={selectedMovie}/>:
+ <div className="App">
       <h1>MovieLand</h1>
       <div className='search'>
         <input
@@ -73,9 +71,7 @@ const App = () => {
         movies?.length > 0 ? (
           <div className='container'>
             {movies.map((movie) =>
-              <Link to={`/movies/${movie.id}`}> 
                  <MovieCard movie={movie} sendDataToParent={handleDataFromChild} />
-              </Link>
               )}
           </div>
         ) :
@@ -85,11 +81,11 @@ const App = () => {
             </div>
           )
       }
-
-
-
     </div>
-
+    
+}
+    </div>
+    
 
   );
 }

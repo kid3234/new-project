@@ -1,8 +1,17 @@
 import React from "react";
-
+import { Link } from 'react-router-dom';
 const MovieDescription = ({ movie }) => {
+
+    const reload = ()=>{
+        window.location.reload();
+    }
     return (
+
+
         <div className='description' >
+          
+                <p className="relodep" onClick={()=>reload()}>Home</p>
+            
             <div>
                 <img
                     src={movie?.poster_path !== 'N/A' ? `https://image.tmdb.org/t/p/w500${movie?.poster_path}` : 'http://via.placeholder./400'}

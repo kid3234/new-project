@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie,sendDataToParent }) => {
     const Selectmovie = (movie) => {
+        sendDataToParent(movie)
         console.log("this is movie 2", movie);
     }
     return (
-            <div className='movie' onClick={Selectmovie(movie)}>
+            <div className='movie' onClick={()=>Selectmovie(movie)}>
                 <div>
                     <p>{movie.release_date}</p>
                 </div>
